@@ -92,7 +92,7 @@ const dateFilter = msgs => {
 	let filteredDates = msgs
 		.filter(msg => {
 			let msgDate = new Date(msg.date);
-			
+			console.log(msgDate.getTime(), dateValue.getTime());
 			if (msgDate.getTime() === dateValue.getTime()) {
 				return msg
 			}
@@ -176,11 +176,16 @@ document.querySelector('.date-input').addEventListener('change', e => {
 	const displayPerc = document.querySelector('.display-header2');
 	const nameInput = document.querySelector('.name-input').value;
 
-	document.querySelector('.data-display').value = '';
+	document.querySelector('.data-display').innerHTML = '';
 
 	let resultMsgs = filterMessagesByName(nameInput);
+	let percent = Math.round(((resultMsgs.length / messages.length) * 100));
 	
-		console.log(dateFilter(messages))
+	displayTotal.innerText = `${resultMsgs.length} messages`;
+	displayPerc.innerText = `${percent}% of all`;
+	
+	
+	writeMsgCard(dateFilter(resultMsgs));
 });
 
 function saveDataToFile() {

@@ -85,20 +85,23 @@ const filterMessagesByName = name => {
 };
 
 const dateFilter = msgs => {
-	const dateInput = new Date(document.querySelector('.date-input').value);
+	const dateInput = document.querySelector('.date-input')	
+	const errorMessage = ``;
 
-	let dateValue = dateInput;
+	let dateValue = dateInput.value
+	console.log('dateValue', dateValue);
 		
 	let filteredDates = msgs
 		.filter(msg => {
-			let msgDate = new Date(msg.date);
 			
-			if (msgDate.getTime() === dateValue.getTime()) {
-				return msg
-			}
 			
+			console.log(msg);
+			let msgDate = msg.date;
+			console.log(msgDate);
+			return msgDate.indexOf(dateValue) !== -1 
 		})
-		
+	console.log(filteredDates);
+
 	return filteredDates;
 };
 
@@ -169,18 +172,23 @@ document.querySelector('.saveButton').addEventListener('click', e => {
   saveDataToFile();
 });
 
-document.querySelector('.date-input').addEventListener('change', e => {
+document.querySelector('.date-input').addEventListener('input', e => {
 	
 	console.log('filtering by date')
 	const displayTotal = document.querySelector('.display-header1');
 	const displayPerc = document.querySelector('.display-header2');
 	const nameInput = document.querySelector('.name-input').value;
 
-	document.querySelector('.data-display').value = '';
+	document.querySelector('.data-display').innerHTML = '';
 
 	let resultMsgs = filterMessagesByName(nameInput);
+	let percent = Math.round(((resultMsgs.length / messages.length) * 100));
 	
-		console.log(dateFilter(messages))
+	displayTotal.innerText = `${resultMsgs.length} messages`;
+	displayPerc.innerText = `${percent}% of all`;
+	
+	
+	writeMsgCard(dateFilter(resultMsgs));
 });
 
 function saveDataToFile() {

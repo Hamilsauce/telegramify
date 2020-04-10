@@ -85,24 +85,25 @@ const filterMessagesByName = name => {
 };
 
 const dateFilter = msgs => {
-	const dateInput = new Date(document.querySelector('.date-input').value);
+	const dateInput = document.querySelector('.date-input')	
+	const errorMessage = ``;
 
-	let dateValue = dateInput;
+	let dateValue = new Date(dateInput.value)
 		
 	let filteredDates = msgs
 		.filter(msg => {
 			let msgDate = new Date(msg.date);
-			
-			if (msgDate.getTime() === dateValue.getTime()) {
-				return msg
-			}
-			
+			return msgDate == dateValue;
 		})
-		
+	console.log(filteredDates);
+
 	return filteredDates;
 };
 
-
+console.log('date value');
+console.log(document.querySelector('.date-input').value);
+document.querySelector('.date-input').style.background = 'blue'
+console.log(document.querySelector('.date-input').value);
 
 
 const generateMsgCard = propStrings => {
@@ -137,14 +138,17 @@ const writeMsgCard = msgList => {
   });
 }
 
+	// ! Listens for the request submit button to run query and return some results
 document.querySelector('.getDataButton').addEventListener('click', e => {
 	e.preventDefault();
 	const submitButton = document.querySelector('.getDataButton');
 	let chatNameQuery = document.querySelector('.chatInput').value;
 	submitButton.value = 'one second...';
 
+
 	request({ url: url})
 		.then(data => { 
+				
 			let chatData = JSON.parse(data);		//update UI
 			let chatList = chatData.chats.list;
 			
@@ -156,6 +160,7 @@ document.querySelector('.getDataButton').addEventListener('click', e => {
 			let chatTarget = chatList.find(chat => {
 				return chat.id == targetChatId;
 			});
+			
 			messages = chatTarget.messages.filter(msg => {
 				return msg.type === 'message';
 			});
@@ -169,19 +174,18 @@ document.querySelector('.saveButton').addEventListener('click', e => {
   saveDataToFile();
 });
 
-document.querySelector('.date-input').addEventListener('change', e => {
-	
-	console.log('filtering by date')
-	const displayTotal = document.querySelector('.display-header1');
-	const displayPerc = document.querySelector('.display-header2');
-	const nameInput = document.querySelector('.name-input').value;
+//*Collapse the form for more space
+// document.querySelector('.collapse').addEventListener('click', (e) => {
+  // const userform = document.querySelector('.userform');
+  // const container = document.querySelector('.top-container');
 
-	document.querySelector('.data-display').value = '';
+  // if (userform.style.height === '0px') {
+    // userform.style.height = '100%';
+  // } else {
+    // userform.style.height = '0px';
 
-	let resultMsgs = filterMessagesByName(nameInput);
-	
-		console.log(dateFilter(messages))
-});
+  // }
+// });
 
 function saveDataToFile() {
   const nameInput = document.querySelector('.name-input').value;
@@ -207,8 +211,7 @@ const renderUI = () => {
 	
 	displayTotal.innerText = `${resultMsgs.length} messages`;
 	displayPerc.innerText = `${percent}% of all`;
-	
-	
+
 	writeMsgCard(limitMsgs(resultMsgs));
 }
 

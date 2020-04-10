@@ -180,7 +180,7 @@ document.querySelector('.date-input').addEventListener('change', e => {
 
 	let resultMsgs = filterMessagesByName(nameInput);
 	
-		console.log(dateFilter(messages))
+		console.log(dateFilter(resultMsgs))
 });
 
 function saveDataToFile() {

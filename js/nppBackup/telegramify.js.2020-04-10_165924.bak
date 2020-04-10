@@ -92,7 +92,7 @@ const dateFilter = msgs => {
 	let filteredDates = msgs
 		.filter(msg => {
 			let msgDate = new Date(msg.date);
-			
+			console.log(msgDate.getTime(), dateValue.getTime());
 			if (msgDate.getTime() === dateValue.getTime()) {
 				return msg
 			}
@@ -180,7 +180,8 @@ document.querySelector('.date-input').addEventListener('change', e => {
 
 	let resultMsgs = filterMessagesByName(nameInput);
 	
-		console.log(dateFilter(messages))
+	
+	writeMsgCard(dateFilter(resultMsgs));
 });
 
 function saveDataToFile() {

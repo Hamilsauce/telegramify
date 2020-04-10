@@ -29,7 +29,7 @@ body {
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 3fr 1fr 8fr;
+  grid-template-rows: 1fr 4fr 1fr 8fr;
   color: rgba(245, 245, 245, 0.9);
   padding: 0px 0px 0px 0px;
   height: 100%;
@@ -69,13 +69,13 @@ body {
   box-sizing: border-box;
   color: rgba(245, 245, 245, 1);
   margin: 0px 0px;
-  padding: 5px 8px;
+  padding: 3px;
   border-bottom: 2px solid rgb(146, 146, 146);
 }
 
 .toolbar>input {
   font-size: 1em;
-  padding: 2px;
+  padding: 2px 2px;
   border: 1px solid rgb(83, 81, 81);
   color: rgb(56, 56, 56);
   border-radius: 5px;
@@ -94,17 +94,6 @@ body {
   margin: 0;
 }
 
-.date-input {
- font-family: 'Titillium Web', sans-serif;
-  font-size: 1em;
-  padding: 0px 5px 2px 5px;
-  border: 1px solid rgba(97, 136, 148, 0.63);
-  background: rgba(255, 255, 255, 0.924);
-  border-radius: 3px;
-	margin: 0px;
-  color: rgb(70, 70, 70);
-}
-
 .find-button {
   font-size: 1em;
   background: rgba(255, 255, 255, 0.945);
@@ -112,7 +101,7 @@ body {
   color: rgb(56, 56, 56);
   border-radius: 5px;
   padding: 5px auto;
-  margin: 0px;
+  margin: 2px;
 }
 .header-top {
   box-sizing: border-box;
@@ -180,7 +169,7 @@ body {
    display: flex;
   justify-content: space-between;
   flex-direction: column;
-  height: fit-content;  
+  /* height: fit-content;   */
 }
 
 .welcome-message {
@@ -230,7 +219,6 @@ label {
   color: rgb(70, 70, 70);
 
 }
-
 
 select {
   color: rgba(59, 59, 59, 0.788);
@@ -508,7 +496,16 @@ label {
   font-size: 1em;
 }
 
+.text-input {
+  font-size: 1em;
+  padding: 0px 3px;
+  border: 1px solid rgba(97, 136, 148, 0.63);
+  background: rgba(255, 255, 255, 0.924);
+  border-radius: 3px;
 
+  color: rgb(70, 70, 70);
+
+}
 
 select {
   color: rgba(59, 59, 59, 0.788);

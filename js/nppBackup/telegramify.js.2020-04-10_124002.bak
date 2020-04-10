@@ -84,27 +84,6 @@ const filterMessagesByName = name => {
   }
 };
 
-const dateFilter = msgs => {
-	const dateInput = new Date(document.querySelector('.date-input').value);
-
-	let dateValue = dateInput;
-		
-	let filteredDates = msgs
-		.filter(msg => {
-			let msgDate = new Date(msg.date);
-			
-			if (msgDate.getTime() === dateValue.getTime()) {
-				return msg
-			}
-			
-		})
-		
-	return filteredDates;
-};
-
-
-
-
 const generateMsgCard = propStrings => {
   let reducedString = propStrings
     .reduce((acc, string) => {
@@ -137,50 +116,57 @@ const writeMsgCard = msgList => {
   });
 }
 
+	// ! Listens for the request submit button to run query and return some results
 document.querySelector('.getDataButton').addEventListener('click', e => {
 	e.preventDefault();
 	const submitButton = document.querySelector('.getDataButton');
 	let chatNameQuery = document.querySelector('.chatInput').value;
 	submitButton.value = 'one second...';
 
+
 	request({ url: url})
 		.then(data => { 
+				
 			let chatData = JSON.parse(data);		//update UI
 			let chatList = chatData.chats.list;
-			
+			document.querySelector('.data-display').innerHTML = '';
 			submitButton.value = 'Get messages';
-			renderUI();
+			renderStatBar();
 			
 			//start building
 			let targetChatId = chatNameQuery === 'Apocalypse Now' ? apocNowId : funchatId;
 			let chatTarget = chatList.find(chat => {
 				return chat.id == targetChatId;
 			});
+			
 			messages = chatTarget.messages.filter(msg => {
 				return msg.type === 'message';
 			});
-		}).catch(err => {
-			console.log(err)
+			
+			writeMsgCard(limitMsgs(resultMsgs));
+		.catch(err => console.log(err.message)
 			submitButton.value = 'Get messages';
 		});
+		
+		 
+		
 });
 
 document.querySelector('.saveButton').addEventListener('click', e => {
   saveDataToFile();
 });
 
-document.querySelector('.date-input').addEventListener('change', e => {
-	
-	console.log('filtering by date')
-	const displayTotal = document.querySelector('.display-header1');
-	const displayPerc = document.querySelector('.display-header2');
-	const nameInput = document.querySelector('.name-input').value;
+//*Collapse the form for more space
+document.querySelector('.collapse').addEventListener('click', (e) => {
+  const userform = document.querySelector('.userform');
+  const container = document.querySelector('.top-container');
 
-	document.querySelector('.data-display').value = '';
+  if (userform.style.height === '0px') {
+    userform.style.height = '100%';
+  } else {
+    userform.style.height = '0px';
 
-	let resultMsgs = filterMessagesByName(nameInput);
-	
-		console.log(dateFilter(messages))
+  }
 });
 
 function saveDataToFile() {
@@ -188,28 +174,23 @@ function saveDataToFile() {
   let resultMsgs = filterMessagesByName(nameInput)
   const blob = new Blob([JSON.stringify(resultMsgs, null, 2)]);
   let a = document.body.appendChild(document.createElement('a'));
-	
+
   a.href = window.URL.createObjectURL(blob);
   a.download = 'telegram-messages' + '.txt';
   a.click();
   a = null;
 }
 
-const renderUI = () => {
-	const displayTotal = document.querySelector('.display-header1');
-	const displayPerc = document.querySelector('.display-header2');
-	const nameInput = document.querySelector('.name-input').value;
+const renderStatBar = () => {
+  const displayTotal = document.querySelector('.display-header1');
+  const displayPerc = document.querySelector('.display-header2');
+  const nameInput = document.querySelector('.name-input').value;
 
-	document.querySelector('.data-display').innerHTML = '';
+  let resultMsgs = filterMessagesByName(nameInput);
+  let percent = Math.round(((resultMsgs.length / messages.length) * 100));
 
-	let resultMsgs = filterMessagesByName(nameInput);
-	let percent = Math.round(((resultMsgs.length / messages.length) * 100));
-	
-	displayTotal.innerText = `${resultMsgs.length} messages`;
-	displayPerc.innerText = `${percent}% of all`;
-	
-	
-	writeMsgCard(limitMsgs(resultMsgs));
+  displayTotal.innerText = `${resultMsgs.length} messages`;
+  displayPerc.innerText = `${percent}% of all`;
 }
 
 
