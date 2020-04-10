@@ -4,7 +4,7 @@ let htmlArray = [];
 let messages = [];
 let htmlOut = '';
 
-const url = `https://hamilsauce.github.io/telegramify/tg-data-export.json`; //${apiKey}
+const url = `https://hamilsauce.github.io/telegramify/data/tg-data-export.json`; //${apiKey}
 const apocNowId = 8816899683;
 const funchatId = 8979731584;
 
