@@ -25,6 +25,7 @@ body {
   box-sizing: border-box;
   user-select: none;
 }
+
 .app {
   box-sizing: border-box;
   display: grid;
@@ -32,23 +33,25 @@ body {
   grid-template-rows: 1fr 3fr 1fr 8fr;
   color: rgba(245, 245, 245, 0.9);
   padding: 0px 0px 0px 0px;
-  height: 100%;
-  max-width: 500px;
+  height: 100vh;
+  max-width: 600px;
   margin: 0 auto;
   border: 0px solid rgba(90, 90, 90, 0.521);
-  border-bottom:0px  solid rgba(255, 255, 255, 0);
-  border-top:0px solid rgba(90, 90, 90, 0);
+  border-bottom: 0px solid rgba(255, 255, 255, 0);
+  border-top: 0px solid rgba(90, 90, 90, 0);
   box-shadow: 0px 0px 25px 3px rgba(122, 122, 122, 0.555);
 }
+
 .headers {
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  background: var( --blue5);
+  background: var(--blue5);
   margin: 0px 0px 2px 0px;
   padding: 0px 0px;
 }
+
 .content-container {
   padding: 10px 3px 5px 0px;
   box-sizing: border-box;
@@ -64,7 +67,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
-  background: var( --blue5);
+  background: var(--blue5);
 
   box-sizing: border-box;
   color: rgba(245, 245, 245, 1);
@@ -80,7 +83,7 @@ body {
   color: rgb(56, 56, 56);
   border-radius: 5px;
   margin: 2px;
-  
+
 }
 
 .toolbar label {
@@ -95,13 +98,13 @@ body {
 }
 
 .date-input {
- font-family: 'Titillium Web', sans-serif;
+  font-family: 'Titillium Web', sans-serif;
   font-size: 1em;
   padding: 0px 5px 2px 5px;
   border: 1px solid rgba(97, 136, 148, 0.63);
   background: rgba(255, 255, 255, 0.924);
   border-radius: 3px;
-	margin: 0px;
+  margin: 0px;
   color: rgb(70, 70, 70);
 }
 
@@ -114,6 +117,7 @@ body {
   padding: 5px auto;
   margin: 0px;
 }
+
 .header-top {
   box-sizing: border-box;
   display: flex;
@@ -128,6 +132,7 @@ body {
   box-sizing: border-box;
   margin: 5px 0px 5px 5px;
 }
+
 .header-strip {
   margin: 5px;
   font-size: 20px;
@@ -176,11 +181,12 @@ body {
   grid-template-rows: 1fr 1fr;
 } */
 }
+
 .top-container-header {
-   display: flex;
+  display: flex;
   justify-content: space-between;
   flex-direction: column;
-  height: fit-content;  
+  height: fit-content;
 }
 
 .welcome-message {
@@ -199,23 +205,26 @@ body {
   justify-content: center;
   flex-direction: row;
 }
+
 .userform {
   box-sizing: border-box;
   /* border: 1px solid rgba(73, 73, 73, 0.349); */
   border-radius: 2px;
   /* padding: 0px 5px; */
   margin: 0px 0px;
-  height: 100%; 
+  height: 100%;
   transition: 0.5s;
   width: 100%;
   background: rgba(241, 241, 241, 0.418);
   overflow: hidden;
 }
+
 fieldset {
   border: 1px solid rgb(168, 168, 168);
   background: rgba(255, 255, 255, 0.993);
   border-radius: 5px;
 }
+
 label {
   font-size: 1em;
 }
@@ -239,10 +248,11 @@ select {
   border-radius: 3px;
   font-size: 1em;
 }
-select option{
+
+select option {
   color: rgba(59, 59, 59, 0.788);
   background: rgb(248, 248, 248);
-  border:2px solid rgba(97, 136, 148, 0.411);
+  border: 2px solid rgba(97, 136, 148, 0.411);
   border-radius: 3px;
   font-size: 1em;
 }
@@ -266,7 +276,7 @@ select option{
   display: flex;
   justify-content: center;
   width: 100%;
-  max-width: 400px; 
+  max-width: 400px;
   font-size: 1em;
 
 }
@@ -391,11 +401,11 @@ select option{
   position: absolute;
   width: 100%;
   padding: 0;
-  max-width: 500px;
+  max-width: 600px;
   text-align: center;
   /* padding-bottom: 13px; */
   bottom: 0;
-  background: var( --blue5);
+  background: var(--blue5);
 
   border-top: 1px solid rgb(5, 3, 3);
 }
@@ -450,7 +460,7 @@ select option{
   justify-content: center;
   /* align-items: center;
   display: none; */
-  font-size:12px;
+  font-size: 12px;
   color: #ffffff;
   margin: 0px;
   padding: 1pzpx;
@@ -458,7 +468,7 @@ select option{
   opacity: 0;
   transition: opacity .5s, height .75s;
   transform: 1s;
-  }
+}
 
 .queryMsg1.show {
   box-sizing: border-box;
@@ -481,6 +491,7 @@ select option{
     top: 15px;
     right: 35px;
   }
+
   .userform {
     box-sizing: border-box;
     /* border: 1px solid rgba(73, 73, 73, 0.349); */
@@ -491,39 +502,41 @@ select option{
     transition: 0.5s;
     background: rgba(241, 241, 241, 0.418);
   }
-.top-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 5px;
-}
-fieldset {
-  border: 1px solid rgb(168, 168, 168);
-  background: rgba(255, 255, 255, 0.993);
-  border-radius: 5px;
-  padding: 2px;
-}
 
-label {
-  font-size: 1em;
-}
+  .top-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
+  }
+
+  fieldset {
+    border: 1px solid rgb(168, 168, 168);
+    background: rgba(255, 255, 255, 0.993);
+    border-radius: 5px;
+    padding: 2px;
+  }
+
+  label {
+    font-size: 1em;
+  }
 
 
 
-select {
-  color: rgba(59, 59, 59, 0.788);
-  background: rgb(248, 248, 248);
-  border: 1px solid rgba(97, 136, 148, 0.479);
-  border-radius: 3px;
-  font-size: 1em;
-}
+  select {
+    color: rgba(59, 59, 59, 0.788);
+    background: rgb(248, 248, 248);
+    border: 1px solid rgba(97, 136, 148, 0.479);
+    border-radius: 3px;
+    font-size: 1em;
+  }
 
-select option {
-  color: rgba(59, 59, 59, 0.788);
-  background: rgb(248, 248, 248);
-  border: 2px solid rgba(97, 136, 148, 0.411);
-  border-radius: 3px;
-  font-size: 1em;
-}
+  select option {
+    color: rgba(59, 59, 59, 0.788);
+    background: rgb(248, 248, 248);
+    border: 2px solid rgba(97, 136, 148, 0.411);
+    border-radius: 3px;
+    font-size: 1em;
+  }
 
 }
