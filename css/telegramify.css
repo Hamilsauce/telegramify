@@ -23,23 +23,24 @@ body {
 
 * {
   box-sizing: border-box;
-  user-select: none;
+  /* user-select: none; */
 }
 
 .app {
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 3fr 1fr 8fr;
+  grid-template-rows: 1fr 2fr 1fr 8fr;
   color: rgba(245, 245, 245, 0.9);
   padding: 0px 0px 0px 0px;
   height: 100vh;
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto;
-  border: 0px solid rgba(90, 90, 90, 0.521);
+  border: 5px solid rgba(45, 88, 128, 0.801);
   border-bottom: 0px solid rgba(255, 255, 255, 0);
   border-top: 0px solid rgba(90, 90, 90, 0);
   box-shadow: 0px 0px 25px 3px rgba(122, 122, 122, 0.555);
+  user-select: none;
 }
 
 .headers {
@@ -135,7 +136,7 @@ body {
 
 .header-strip {
   margin: 5px;
-  font-size: 20px;
+  font-size: 28px;
 }
 
 .menu-icon {
@@ -182,6 +183,10 @@ body {
 } */
 }
 
+.hide {
+  display: none;
+}
+
 .top-container-header {
   display: flex;
   justify-content: space-between;
@@ -217,6 +222,10 @@ body {
   width: 100%;
   background: rgba(241, 241, 241, 0.418);
   overflow: hidden;
+}
+
+.userform.hide {
+  display: none;
 }
 
 fieldset {
@@ -311,23 +320,27 @@ select option {
   box-sizing: border-box;
   user-select: initial;
   overflow: auto;
-  height: 100%;
+  height: fit-content;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .data-display {
   box-sizing: border-box;
-  padding: 0;
+  padding: 0 0 5px 0;
   margin: 0;
-  height: 100%;
+  height: fit-content;
   width: auto;
+  padding-bottom: 50px;
 }
 
 .display-container {
   box-sizing: border-box;
-  padding: 0;
+  padding: 0px 0px;
   margin: 0;
   height: 100%;
   width: auto;
+  /* border: ; */
+  background: rgba(93, 128, 145, 0.521);
   overflow: auto;
 }
 
@@ -351,20 +364,25 @@ select option {
 
 .message-card {
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 3fr 1fr;
+  grid-template-areas:
+    "date"
+    "text"
+    "from";
   gap: 3px;
   box-sizing: border-box;
   width: 335px;
+  width: 90%;
+  max-width: 400px;
   min-height: fit-content;
-  max-height: 125px;
+  max-height: 150px;
   background: white;
-  margin: 0 auto 15px auto;
+  margin: 5px auto 15px auto;
   border: 1px solid rgba(36, 36, 23, 0.527);
   border-radius: 3px;
   box-shadow: 0px 1px 10px 1px rgba(71, 71, 56, 0.226);
   color: rgb(49, 49, 49);
   z-index: 0;
+  user-select: text;
 }
 
 .card-date {
@@ -374,39 +392,42 @@ select option {
   border: 2px solid white;
   color: white;
   padding: 2px 5px;
+  grid-area: date;
 }
 
-.card-body {
-  font-size: 0.9em;
+.card-text {
+  font-size: 1em;
   max-height: fit-content;
   overflow: auto;
-  padding: 2px 5px;
+  padding: 0px 8px;
+  grid-area: text;
   /* height: fit-content; */
+  max-height: 95px;
+  overflow-y: auto;
 }
 
-.card-author {
+.card-from {
   box-sizing: border-box;
   display: flex;
   justify-content: flex-end;
-  height: 25px;
+  align-items: center;
+  height: 18px;
   border: 2px solid white;
-  padding: 2px 5px;
-  font-size: 0.8em;
+  padding: 0px 5px 4px 0px;
+  font-size: 0.9em;
   font-style: italic;
+  grid-area: from;
 }
 
 
 .footer {
   box-sizing: border-box;
   position: absolute;
-  width: 100%;
+  width: 492px;
   padding: 0;
-  max-width: 600px;
-  text-align: center;
-  /* padding-bottom: 13px; */
+  max-width: 98%;
   bottom: 0;
   background: var(--blue5);
-
   border-top: 1px solid rgb(5, 3, 3);
 }
 
@@ -481,7 +502,7 @@ select option {
   transform: 1s;
 }
 
-@media screen and (min-height: 450px) {
+@media screen and (max-height: 450px) {
   .overlay a {
     font-size: 20px
   }
@@ -491,6 +512,7 @@ select option {
     top: 15px;
     right: 35px;
   }
+
 
   .userform {
     box-sizing: border-box;

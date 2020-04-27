@@ -1,0 +1,75 @@
+{
+  "messageTypes": [
+    {
+      "id": 1,
+      "category": "message",
+      "type": "message",
+      "date": "2018-12-31T15:05:28",
+      "edited": "1969-12-31T18:00:00",
+      "from": "John Doe",
+      "from_id": 589825592,
+      "text": "Welcome to the new and improved pol chat"
+    },
+    {
+      "id": 2,
+      "category": "link",
+      "type": "message",
+      "date": "2018-12-31T15:08:54",
+      "edited": "1969-12-31T18:00:00",
+      "from": "John Doe",
+      "from_id": 589825592,
+      "text": [
+        {
+          "type": "link",
+          "text": "https://www.cnn.com/2018/05/28/us/china-flight-student-kidnapping-intl/index.html"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "category": "photo",
+      "type": "message",
+      "date": "2018-12-31T10:42:01",
+      "edited": "1969-12-31T18:00:00",
+      "from": "John Doe",
+      "from_id": 615211217,
+      "photo": "chats/chat_1/photos/photo_3@29-05-2018_10-42-01.jpg",
+      "width": 720,
+      "height": 1280,
+      "text": ""
+    },
+    {
+      "id": 4,
+      "category": "sticker",
+      "type": "message",
+      "date": "2018-12-31T13:36:32",
+      "edited": "1969-12-31T18:00:00",
+      "from": "John Doe",
+      "from_id": 523989469,
+      "file": "(File not included. Change data exporting settings to download.)",
+      "thumbnail": "(File not included. Change data exporting settings to download.)",
+      "media_type": "sticker",
+      "sticker_emoji": "☝",
+      "width": 512,
+      "height": 512,
+      "text": ""
+    },
+    {
+      "id": 5,
+      "category": "gif",
+      "type": "message",
+      "date": "2018-12-31T10:27:59",
+      "edited": "1969-12-31T18:00:00",
+      "from": "John Doe",
+      "from_id": 589825592,
+      "file": "chats/chat_1/video_files/animation (2).gif.mp4",
+      "thumbnail": "chats/chat_1/video_files/animation (2).gif.mp4_thumb.jpg",
+      "media_type": "animation",
+      "mime_type": "video/mp4",
+      "duration_seconds": 4,
+      "width": 300,
+      "height": 216,
+      "text": ""
+    }
+  ]
+}

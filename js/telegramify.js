@@ -1,48 +1,21 @@
 // *TODO this could be placed in it's own module as it only relies on url input from external source
-let records = [];
-let htmlArray = [];
 let messages = [];
-let htmlOut = '';
+//@util funcs
+const dataStore = {};
+const toggleClass = (el, className) => el.classList.toggle(className);
+//@end util funcs
 
 const url = `https://hamilsauce.github.io/telegramify/data/tg-data-export.json`; //${apiKey}
 const apocNowId = 8816899683;
 const funchatId = 8979731584;
 
-const toggleClass = (el, className) => el.classList.toggle(className);
-
-
-//! list builder
-const lister = list => {
-  let listArr = list.map(item => {
-      return `<li class="listItem" id="${item}">${item}</li>`
-    })
-    .reduce((itemOut, acc) => {
-      return acc += itemOut;
-    }, '');
-  console.log(listArr);
-  return listArr;
-};
-//! end list builder
-
-//! general purpose/reusable functions
 const validateName = name => {
   return name.trim() ? true : false;
 };
 
-const showData = data => {
-  let objData = Object.entries(data);
-  console.log(objData);
-};
-
-const htmlListOut = list => {
-  let dataDisplay = document.querySelector('#divContents');
-  dataDisplay.innerHTML = `<ul class="list">${list}</ul>`;
-};
-//!end resuable stuff
-
 const limitMsgs = messageList => { //* will return unique list of names
   console.log('messageList');
-  console.log(messageList);
+  // console.log(messageList);
   let oneHundredLimit = messageList
     .filter(msg => {
       return messageList.indexOf(msg) < 100;
@@ -80,115 +53,109 @@ const filterMessagesByName = name => {
       .filter(msg => {
         return msg.from.trim().toUpperCase().indexOf(name.trim().toUpperCase()) >= 0;
       });
+    dataStore.filteredMsgs = msgByName;
     return msgByName;
   }
 };
 
-const dateFilter = msgs => {
-	const dateInput = new Date(document.querySelector('.date-input').value);
+const writeMsgCard = msgList => {
+  let propsToDisplay = ['id', 'date', 'text', 'from'];
 
-	let dateValue = dateInput;
-		
-	let filteredDates = msgs
-		.filter(msg => {
-			let msgDate = new Date(msg.date);
-			
-			if (msgDate.getTime() === dateValue.getTime()) {
-				return msg
-			}
-			
-		})
-		
-	return filteredDates;
-};
+  document.querySelector('.data-display').innerHTML = ''; //empty existing messages displayed
+  Object.values(msgList).forEach((msg, index) => { //@ get data for each objs display card, create html string
+    let cardParts = Object.entries(msg)
+      .filter(propName => {
+        return propsToDisplay.includes(propName[0])
+      })
+      .map(([key, value]) => {
+        if (key === 'id') return '';
+        if (key === 'date') value = new Date(value).toLocaleDateString();
+        if (typeof value == 'object') value = JSON.stringify(value, null, 2);
+        return /*html*/ `<div class="card-${key}">${value}</div>`;
+      })
+      .reduce((acc, string) => {
+        return acc += string;
+      }, '');
+    generateMsgCard(cardParts, msg.id);
+  })
+}
 
-
-
-
-const generateMsgCard = propStrings => {
-  let reducedString = propStrings
-    .reduce((acc, string) => {
-      return acc += string;
-    }, '');
+const generateMsgCard = (cardGuts, id) => { //* takes a string of html w/ card data, creates messagecard div, inserts string into div as inner html, appends to display html elem
   let newCard = document.createElement('div');
-  newCard.innerHTML = reducedString;
-  newCard.setAttribute('class', 'message-card');
+  newCard.classList.add('message-card');
+  newCard.setAttribute('data-id', id)
+
+  newCard.innerHTML = cardGuts;
   document.querySelector('.data-display').appendChild(newCard);
 }
 
-const writeMsgCard = msgList => {
-  let reduced = '';
-  let dateTextFrom = [];
-
-  //get data for each objs display card, create html string
-  msgList.forEach(msg => {
-    for (let [prop, val] of Object.entries(msg)) {
-      if (prop === 'date') {
-        let msgDate = new Date(val).toDateString();
-        dateTextFrom[0] = `<div class="card-date">${msgDate}</div>`;
-      } else if (prop === 'text') {
-        //todo need to check if array eventualy
-        dateTextFrom[1] = `<div class="card-body">${val}</div>`;
-      } else if (prop === 'from') {
-        dateTextFrom[2] = `<div class="card-author">${val}</div>`;
-      }
-    }
-    generateMsgCard(dateTextFrom);
-  });
-}
-
 document.querySelector('.getDataButton').addEventListener('click', e => {
-	e.preventDefault();
-	const submitButton = document.querySelector('.getDataButton');
-	let chatNameQuery = document.querySelector('.chatInput').value;
-	submitButton.value = 'one second...';
+  e.preventDefault();
+  const submitButton = document.querySelector('.getDataButton');
+  let chatNameQuery = document.querySelector('.chatInput').value;
+  submitButton.value = 'one second...';
 
-	request({ url: url})
-		.then(data => { 
-			let chatData = JSON.parse(data);		//update UI
-			let chatList = chatData.chats.list;
-			
-			submitButton.value = 'Get messages';
-			renderUI();
-			
-			//start building
-			let targetChatId = chatNameQuery === 'Apocalypse Now' ? apocNowId : funchatId;
-			let chatTarget = chatList.find(chat => {
-				return chat.id == targetChatId;
-			});
-			messages = chatTarget.messages.filter(msg => {
-				return msg.type === 'message';
-			});
-		}).catch(err => {
-			console.log(err)
-			submitButton.value = 'Get messages';
-		});
+  request({
+      url: url
+    })
+    .then(data => {
+      let chatData = JSON.parse(data);
+      let chatList = chatData.chats.list;
+
+      //map user selection to chat id, find the chat msg array
+      let targetChatId = chatNameQuery === 'Apocalypse Now' ? apocNowId : funchatId;
+      let chatTarget = chatList.find(chat => {
+        return chat.id == targetChatId;
+      });
+      messages = chatTarget.messages.filter(msg => { //filter msgs for non-msg things (invitations, service posts)
+        return msg.type === 'message';
+      });
+      renderUI();
+      submitButton.value = 'Get messages';
+    }).catch(err => {
+      console.log(err)
+
+    });
 });
 
 document.querySelector('.saveButton').addEventListener('click', e => {
   saveDataToFile();
 });
 
+const dateFilter = msgs => {
+  const dateInput = document.querySelector('.date-input');
+  let dateValue = new Date(dateInput.value).toDateString();
+  let filteredDates = msgs
+    .filter(msg => {
+      let msgDate = new Date(msg.date).toDateString();
+      return msgDate == dateValue
+    })
+
+  return filteredDates;
+};
+
 document.querySelector('.date-input').addEventListener('change', e => {
-	
-	console.log('filtering by date')
-	const displayTotal = document.querySelector('.display-header1');
-	const displayPerc = document.querySelector('.display-header2');
-	const nameInput = document.querySelector('.name-input').value;
+  const userDate = e.target.value;
+  const nameFilteredMsgs = dataStore.filteredMsgs
 
-	document.querySelector('.data-display').value = '';
+  if (userDate === '') { //if date input gets cleared, don't filter by date and re render stored msgs
+    writeMsgCard(nameFilteredMsgs);
+    return;
+  }
+  let dateFiltered = dateFilter(nameFilteredMsgs);
+  const displayDayTotal = document.querySelector('.display-header3');
 
-	let resultMsgs = filterMessagesByName(nameInput);
-	
-		console.log(dateFilter(messages))
-});
+  displayDayTotal.innerText = `${dateFiltered.length} this day`
+
+  writeMsgCard(dateFiltered)
+})
 
 function saveDataToFile() {
   const nameInput = document.querySelector('.name-input').value;
   let resultMsgs = filterMessagesByName(nameInput)
   const blob = new Blob([JSON.stringify(resultMsgs, null, 2)]);
   let a = document.body.appendChild(document.createElement('a'));
-	
+
   a.href = window.URL.createObjectURL(blob);
   a.download = 'telegram-messages' + '.txt';
   a.click();
@@ -196,32 +163,22 @@ function saveDataToFile() {
 }
 
 const renderUI = () => {
-	const displayTotal = document.querySelector('.display-header1');
-	const displayPerc = document.querySelector('.display-header2');
-	const nameInput = document.querySelector('.name-input').value;
+  const displayTotal = document.querySelector('.display-header1');
+  const displayPerc = document.querySelector('.display-header2');
+  const nameInput = document.querySelector('.name-input').value;
 
-	document.querySelector('.data-display').innerHTML = '';
+  document.querySelector('.data-display').innerHTML = '';
 
-	let resultMsgs = filterMessagesByName(nameInput);
-	let percent = Math.round(((resultMsgs.length / messages.length) * 100));
-	
-	displayTotal.innerText = `${resultMsgs.length} messages`;
-	displayPerc.innerText = `${percent}% of all`;
-	
-	
-	writeMsgCard(limitMsgs(resultMsgs));
+  let resultMsgs = filterMessagesByName(nameInput);
+  let percent = Math.round(((resultMsgs.length / messages.length) * 100));
+
+  displayTotal.innerText = `${resultMsgs.length} messages`;
+  displayPerc.innerText = `${percent}% of all`;
+
+  writeMsgCard(limitMsgs(resultMsgs));
 }
 
-
-
-
-const tallies = (msgArray) => {
-  let totalMsgs = msgArray.length;
-
-  let jakeMsgs = messages.filter(msgArray => {
-    return msg.from_id == 523989469
-  });
-  console.log('jakeMsgs.length');
-  console.log(jakeMsgs.length);
-
+const collapseTop = () => {
+  const top = document.querySelector('.userform')
+  toggleClass(top, 'hide')
 }
